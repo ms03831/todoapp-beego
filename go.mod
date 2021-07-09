@@ -1,4 +1,4 @@
-module hello
+module github.com/ms03831/todoapp-beego
 
 go 1.16
 
