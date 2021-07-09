@@ -1,9 +1,8 @@
 package routers
 
 import (
-	"hello/controllers"
-
 	web "github.com/beego/beego/v2/server/web"
+	"github.com/ms03831/todoapp-beego/controllers"
 )
 
 func init() {

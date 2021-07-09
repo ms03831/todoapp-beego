@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	"hello/models"
+
+	"github.com/ms03831/todoapp-beego/models"
 )
 
 type TodoController struct {

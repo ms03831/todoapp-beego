@@ -3,7 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"hello/models"
+
+	"github.com/ms03831/todoapp-beego/models"
 )
 
 type UserController struct {
