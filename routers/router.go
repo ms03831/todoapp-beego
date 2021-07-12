@@ -19,11 +19,11 @@ func init() {
 			web.NSRouter("/profile/update",&controllers.UserController{},"put:UpdateProfile"),
 		),
 		web.NSNamespace("/todos",
-			web.NSRouter("/create",&controllers.TodoController{},"put:CreateTodo"),
+			web.NSRouter("/create",&controllers.TodoController{},"post:CreateTodo"),
 			web.NSRouter("/list",&controllers.TodoController{},"get:ListTodo"),
 			web.NSRouter("/delete",&controllers.TodoController{},"delete:DeleteTodo"),
-			web.NSRouter("/done",&controllers.TodoController{},"put:ChangeStatus"),
-			web.NSRouter("/deadline",&controllers.TodoController{},"put:ChangeDeadline"),
+			web.NSRouter("/done",&controllers.TodoController{},"post:ChangeStatus"),
+			web.NSRouter("/deadline",&controllers.TodoController{},"post:ChangeDeadline"),
 		),
 	)
 	web.AddNamespace(ns)
