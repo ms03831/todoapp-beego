@@ -1,10 +1,9 @@
 package main
 
 import (
-	_ "hello/models"
-	_ "hello/routers"
-
 	beego "github.com/beego/beego/v2/server/web"
+	_ "github.com/ms03831/todoapp-beego/models"
+	_ "github.com/ms03831/todoapp-beego/routers"
 )
 
 func main() {

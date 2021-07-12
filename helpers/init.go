@@ -10,10 +10,10 @@ const (
 	OUTPUT_FORMAT = "2006-01-02T15:04:05.000Z"
 )
 
-func TimestampToJavaScriptISO(s string) (string, error) {
+func TimestampToJavaScriptISO(s string) (time.Time, error) {
 	t, err := time.Parse(INPUT_FORMAT, s)
 	if err != nil {
-	  return "", err
+	  return time.Now(), err
 	}
-	return t.UTC().Format(OUTPUT_FORMAT), nil
+	return t, err
 }
