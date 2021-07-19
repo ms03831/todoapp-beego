@@ -56,7 +56,7 @@ func GetTaskInfo(session interface{}, taskID int) (Task, error) {
 	user, err := user.GetUserInfo(email)
 	qs := orm.NewOrm().QueryTable("task")
 	if err == nil {
-		qs.Filter("user_id", user.Id).Filter("Id", taskID).One(task)
+		qs.Filter("user_id", user.Id).Filter("Id", taskID).One(&task)
 	} 
 	return task, err
 }

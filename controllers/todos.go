@@ -2,10 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	"strconv"
 
-	"github.com/ms03831/todoapp-beego/helpers"
-	"github.com/ms03831/todoapp-beego/models"
+	models "github.com/ms03831/todoapp-beego/models"
 )
 
 type TodoController struct {
@@ -57,15 +55,14 @@ func (c *TodoController) DeleteTodo() {
 	sess := c.GetSession("user")
 	if sess != nil {
 		var task models.Task
-		var customData map[string]string
-		if err := json.NewDecoder(c.Ctx.Request.Body).Decode(&customData); err != nil {
+		err := json.Unmarshal(c.Ctx.Input.RequestBody, &task)
+		if err != nil {
 			c.Data["json"] = map[string]interface{}{"status": -1, "error": err } 
 		} else {
-			id, err1 := strconv.Atoi(customData["id"])
-			err2 := task.Delete(sess, id)
+			err := task.Delete(sess, task.Id)
 			
-			if err1 == nil && err2 == nil {
-				c.Data["json"] = map[string]interface{}{"status": 0, "taskId": id}
+			if err == nil {
+				c.Data["json"] = map[string]interface{}{"status": 0, "taskId": task.Id}
 			} else {
 				c.Data["json"] = map[string]interface{}{"status": -1, "error": "Some error occured"}
 			}
@@ -76,18 +73,20 @@ func (c *TodoController) DeleteTodo() {
 	c.ServeJSON()
 }
 
+
+
+
 func (c *TodoController) ChangeStatus() {
 	sess := c.GetSession("user")
 	if sess != nil {
-		var customData map[string]string
-		if err := json.NewDecoder(c.Ctx.Request.Body).Decode(&customData); err != nil {
+		var task models.Task
+		err := json.Unmarshal(c.Ctx.Input.RequestBody, &task)
+		if err != nil {
 			c.Data["json"] = map[string]interface{}{"status": -1, "error": err } 
 		} else {
-			id, err1 := strconv.Atoi(customData["id"])
-			err2 := models.ChangeTaskDone(sess, id)
-			
-			if err1 == nil && err2 == nil {
-				c.Data["json"] = map[string]interface{}{"status": 0, "taskId":id}
+			err := models.ChangeTaskDone(sess, task.Id)
+			if err == nil {
+				c.Data["json"] = map[string]interface{}{"status": 0, "taskId": task.Id}
 			} else {
 				c.Data["json"] = map[string]interface{}{"status": -1, "error": "Some error occured"}
 			}
@@ -100,18 +99,16 @@ func (c *TodoController) ChangeStatus() {
 
 func (c *TodoController) ChangeDeadline() {
 	sess := c.GetSession("user")
-	var task models.Task
 	if sess != nil {
-		var customData map[string]string
-		if err := json.NewDecoder(c.Ctx.Request.Body).Decode(&customData); err != nil {
+		var task models.Task
+		err := json.Unmarshal(c.Ctx.Input.RequestBody, &task)
+		if err != nil {
 			c.Data["json"] = map[string]interface{}{"status": -1, "error": err } 
 		} else {
-			deadline, err1 := helpers.TimestampToJavaScriptISO(customData["deadline"])
-			id, err2 := strconv.Atoi((customData["id"]))
-			err3 := task.ChangeTaskDeadline(sess, id, deadline)
+			err := task.ChangeTaskDeadline(sess, task.Id, task.Deadline)
 			
-			if err1 == nil && err2 == nil && err3 == nil{
-				c.Data["json"] = map[string]interface{}{"status": 0, "taskId":id}
+			if err == nil{
+				c.Data["json"] = map[string]interface{}{"status": 0, "taskId": task.Id}
 			} else {
 				c.Data["json"] = map[string]interface{}{"status": -1, "error": "Some error occured"}
 			}
